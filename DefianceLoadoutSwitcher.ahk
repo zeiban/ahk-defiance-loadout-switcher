@@ -18,62 +18,111 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-
-; 1920×1080 loadout button locations for reference
+;========================================================================
+; 
+; Script:       DefianceLoadoutSwitcher
+; Description:  Allows you to quickly switch loadouts in the game Defiance 
+; Github: https://github.com/zeiban/ahk-defiance-loadout-switcher
 ;
-; loadout 1 1308 155
-; loadout 2 1345 155
-; loadout 3 1380 155
-; loadout 4 1415 155
-; loadout 5 1448 155
+; Last Update:  11/April/2013 17:45 EST
+;
+; Created by Zeiban
+; - https://github.com/zeiban
+; - http://zeiban.com
+;
+;========================================================================
 
-; Thanks Antonio França aka "MasterFocus"
-#Include WaitPixelColor.ahk
 
-SelectLoadout(x,y) {
-  color := 0x949418
+#If WinActive("Defiance")
+
+g_HefW =: 1920
+g_RefH =: 1080
+
+g_LoadoutCheckColor := 0x949418
+g_LoadoutCheckX := 632 / g_RefW
+g_LoadoutCheckY := 41 / g_RefW
+
+g_Loadout1NormX := 1308 / g_RefW
+g_Loadout2NormX := 1345 / g_RefW
+g_Loadout3NormX := 1380 / g_RefW
+g_Loadout4NormX := 1415 / g_RefW
+g_Loadout5NormX := 1448 / g_RefW
+g_LoadoutNorm_y := 155 / g_RefH
+
+g_Timeout := 5000
+
+SelectLoadout(p_x,p_y) {
+  global g_Timeout 
+  global g_LoadoutCheckX 
+  global g_LoadoutCheckY 
+  global g_LoadoutCheckColor 
+
+  WinGetPos l_WinX, l_WinX, l_WinW, l_WinH
+  l_ClickX := p_PosX * l_WinW
+  l_ClickY := p_PosY * l_WinH
+
+  Send {l down}
+  Sleep 50
+  Send {l up}
+  ;Sleep 500
+  
+  ; Wait for Loadout screen to appear
+  l_Start := A_TickCount
   loop {
-    Send {l down}
-    Sleep 50
-    Send {l up}
-    ; Wait for "Loadout" screen
-    var := WaitPixelColor(color, 632, 41, 2000)
-    If ( var = 0 ) {
-      MouseMove x, y
-      Sleep 50
-      MouseClick Left, x, y, 1, 0, D
-      Sleep 50
-      MouseClick Left, x, y, 1, 0, U
-      Send {l down}
-      Sleep 50
-      Send {l up}
+    PixelGetColor, l_Color, g_LoadoutCheckX , g_LoadoutCheckY
+    If ErrorLevel {
+      MsgBox Error
       Return
-    } Else If ( var = 1 ) {
-      ;MsgBox Error
-      Return
-    } Else If ( var = 2 ) {
-      ;MsgBox Timeout
+    }
+    
+    If (l_Color == g_LoadoutCheckColor) {
+      MsgBox Found
+      Break 
+    }
+    If ( g_TimeOut ) && ( A_TickCount - l_Start >= g_TimeOut) {
+      MsgBox Timeout
       Return
     }
   }
+  
+  MouseClick Left, l_ClickX, l_ClickY, 1, 0, D
+
+  ;Delay needed between up/down for fast computers
+  Sleep 50 
+
+  MouseClick Left, l_ClickX, l_ClickY, 1, 0, U
+
+  Send {l down}
+  Sleep 50
+  Send {l up}
 }
 
 SelectLoadout1() {
-  SelectLoadout(1308,155)
+  global g_Loadout5NormX
+  global g_LoadoutNormY
+  SelectLoadout(g_Loadout1NormX, g_LoadoutNormY)
 }
 
 SelectLoadout2() {
-  SelectLoadout(1345,155)
+  global g_Loadout5NormX
+  global g_LoadoutNormY
+  SelectLoadout(g_Loadout2NormX, g_LoadoutNormY)
 }
 
 SelectLoadout3() {
-  SelectLoadout(1380,155)
+  global g_Loadout5NormX
+  global g_LoadoutNormY
+  SelectLoadout(g_Loadout3NormX, g_LoadoutNormY)
 }
 
 SelectLoadout4() {
-  SelectLoadout(1415,155)
+  global g_Loadout5NormX
+  global g_LoadoutNormY
+  SelectLoadout(g_Loadout4NormX, g_LoadoutNormY)
 }
 
 SelectLoadout5() {
-  SelectLoadout(1448,155)
+  global g_Loadout5NormX
+  global g_LoadoutNormY
+  SelectLoadout(g_Loadout5NormX, g_LoadoutNormY)
 }

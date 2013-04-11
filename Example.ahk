@@ -1,5 +1,5 @@
-	; For The AHK noobs out there. 
-; Binds F9-F12
+; For The AHK noobs out there. 
+; Binds F9-F12 to loadouts 1-5
 ;
 
 #Include DefianceLoadoutSwitcher.ahk
