@@ -1,5 +1,8 @@
-#Include DefianceLoadoutSwitcher.ahk
+	; For The AHK noobs out there. 
+; Binds F9-F12
+;
 
+#Include DefianceLoadoutSwitcher.ahk
 Return
 
 F8::
