@@ -1,0 +1,23 @@
+# Defiance Loadout Switcher Script for AutoHitKey #
+
+## Introduction ##
+
+This AHK script provides functions that you can call from your own scripts to switch any one of the 5 loadouts. Currently the script is hard coded to expect a 1920×1080 (1080p) screen resolution. I'm workig on a way to make the script work with any screen resolution
+
+## Functions ##
+
+There are 5 functions defined in the script that you can call from your own AHK scripts
+
+SelectLoadout1()
+
+SelectLoadout2()
+
+SelectLoadout3()
+
+SelectLoadout4()
+
+SelectLoadout5()
+
+## Getting Started ##
+
+Take a look at the Example.ahk script to see how to have F9-F12 switch loadouts 1-5
