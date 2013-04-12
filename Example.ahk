@@ -1,6 +1,5 @@
 ; For The AHK noobs out there. 
 ; Binds 6-0 to loadouts 1-5
-;
 
 #SingleInstance force
 #Include DefianceLoadoutSwitcher.ahk
