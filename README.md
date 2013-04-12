@@ -22,4 +22,4 @@ SelectLoadout5()
 
 If you don't have AHK downloaded and installed it can be found at http://www.autohotkey.com
 
-Take a look at the Example.ahk script to see how to have F9-F12 switch loadouts 1-5
+Take a look at the Example.ahk script to see how to switch loadouts 1-5
