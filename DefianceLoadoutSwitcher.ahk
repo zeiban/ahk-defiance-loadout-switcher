@@ -68,14 +68,13 @@ SelectLoadout(p_Loadout) {
   }
 
   ; Move to the center just in case the cursor has the loadout button armed
-  MouseMove l_WinW * 0.5, l_WinH * 0.5, 0
+  MouseMove l_HalfWinW , l_HalfWinH, 0
 
   ; Find loadout button in top right quadrant
   ImageSearch l_FoundX, l_FoundY, l_HalfWinW, 0, l_WinW, l_WinH, *50 loadout-%p_Loadout%.png
   If ErrorLevel {
     ; Should not be here. The loadout screne is not up or something in the UI changed
   } Else {
-;    MouseMove, l_FoundX, l_FoundY, 0
     MouseClick Left, l_FoundX, l_FoundY, 1, 0, D
 
     ;Delay needed between mouse up/down for fast computers
