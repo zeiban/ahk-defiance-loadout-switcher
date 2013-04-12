@@ -1,26 +1,22 @@
 ; For The AHK noobs out there. 
-; Binds 6-0 to loadouts 1-5
+; Binds 5-0 to loadouts 1-4. I still need a screeshot of loadout 5 unlocked. 
 
 #SingleInstance force
 #Include DefianceLoadoutSwitcher.ahk
 Return
 
+5::
+  SelectLoadout(1)
+Return
+
 6::
-  SelectLoadout1()
+  SelectLoadout(2)
 Return
 
 7::
-  SelectLoadout2()
+  SelectLoadout(3)
 Return
 
 8::
-  SelectLoadout3()
-Return
-
-9::
-  SelectLoadout4()
-Return
-
-0::
-  SelectLoadout5()
+  SelectLoadout(4)
 Return

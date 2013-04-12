@@ -35,90 +35,52 @@
 
 #If WinActive("Defiance")
 
-g_RefW := 1920
-g_RefH := 1080
+g_Timeout := 2500
 
-g_LoadoutCheckColor := 0x00BFFF
-g_LoadoutCheckX := 92 / g_RefW
-g_LoadoutCheckY := 41 / g_RefH
-
-g_Loadout1NormX := 1308 / g_RefW
-g_Loadout2NormX := 1345 / g_RefW
-g_Loadout3NormX := 1380 / g_RefW
-g_Loadout4NormX := 1415 / g_RefW
-g_Loadout5NormX := 1448 / g_RefW
-g_LoadoutNormY := 155 / g_RefH
-
-g_Timeout := 5000
-
-SelectLoadout(p_PosX, p_PosY) {
+SelectLoadout(p_Loadout) {
   global g_Timeout 
-  global g_LoadoutCheckX 
-  global g_LoadoutCheckY 
-  global g_LoadoutCheckColor 
 
   WinGetPos l_WinX, l_WinX, l_WinW, l_WinH
-  l_ClickX := p_PosX * l_WinW
-  l_ClickY := p_PosY * l_WinH
 
   Send {l down}
   Sleep 50
   Send {l up}
 
-  ; Wait for Loadout screen to appear
+  ; Wait for Loadout screen to appear by checking the icon
   l_Start := A_TickCount
   loop {
-    PixelGetColor, l_Color, g_LoadoutCheckX * l_WinW, g_LoadoutCheckY * l_WinH
-    If ErrorLevel {
-      Return
-    }
-    
-    If (l_Color == g_LoadoutCheckColor) {
+
+    ImageSearch l_FoundX, l_FoundY, 0,0, l_WinW, l_WinH, *50 loadout.png
+
+    If (ErrorLevel = 2) {
+      Return 
+    } Else If (ErrorLevel = 1) {
+      If ( g_TimeOut ) && ( A_TickCount - l_Start >= g_TimeOut) {
+        Return
+      }
+    } Else {
       Break 
-    }
-    If ( g_TimeOut ) && ( A_TickCount - l_Start >= g_TimeOut) {
-      Return
-    }
+    }    
   }
-  MouseMove, l_ClickX, l_ClickY , 0
-  MouseClick Left, l_ClickX, l_ClickY, 1, 0, D
 
-  ;Delay needed between mouse up/down for fast computers
-  Sleep 100 
+  ; Move to the center just in case the cursor has the loadout button armed
+  MouseMove l_WinW * 0.5, l_WinH * 0.5, 0
 
-  MouseClick Left, l_ClickX, l_ClickY, 1, 0, U
+  ; Find loadout button
+  ImageSearch l_FoundX, l_FoundY, 0,0, l_WinW, l_WinH, *50 loadout-%p_Loadout%.png
+  If ErrorLevel {
+    ; Should not be here. The loadout screne is not up or something in the UI changed
+  } Else {
+;    MouseMove, l_FoundX, l_FoundY, 0
+    MouseClick Left, l_FoundX, l_FoundY, 1, 0, D
 
+    ;Delay needed between mouse up/down for fast computers
+    Sleep 25 
+
+    MouseClick Left, l_FoundX, l_FoundY, 1, 0, U
+  }
   Send {l down}
   Sleep 50
-  Send {l up}
+  Send {l up}  
 }
 
-SelectLoadout1() {
-  global g_Loadout1NormX
-  global g_LoadoutNormY
-  SelectLoadout(g_Loadout1NormX, g_LoadoutNormY)
-}
-
-SelectLoadout2() {
-  global g_Loadout2NormX
-  global g_LoadoutNormY
-  SelectLoadout(g_Loadout2NormX, g_LoadoutNormY)
-}
-
-SelectLoadout3() {
-  global g_Loadout3NormX
-  global g_LoadoutNormY
-  SelectLoadout(g_Loadout3NormX, g_LoadoutNormY)
-}
-
-SelectLoadout4() {
-  global g_Loadout4NormX
-  global g_LoadoutNormY
-  SelectLoadout(g_Loadout4NormX, g_LoadoutNormY)
-}
-
-SelectLoadout5() {
-  global g_Loadout5NormX
-  global g_LoadoutNormY
-  SelectLoadout(g_Loadout5NormX, g_LoadoutNormY)
-}
