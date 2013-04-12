@@ -42,6 +42,9 @@ SelectLoadout(p_Loadout) {
 
   WinGetPos l_WinX, l_WinX, l_WinW, l_WinH
 
+  l_HalfWinW :=  l_WinW * 0.5	
+  l_HalfWinH :=  l_WinH * 0.5	
+
   Send {l down}
   Sleep 50
   Send {l up}
@@ -50,7 +53,8 @@ SelectLoadout(p_Loadout) {
   l_Start := A_TickCount
   loop {
 
-    ImageSearch l_FoundX, l_FoundY, 0,0, l_WinW, l_WinH, *50 loadout.png
+    ; Search the top left quadrant
+    ImageSearch l_FoundX, l_FoundY, 0,0, l_HalfWinW , l_HalfWinH, *50 loadout.png
 
     If (ErrorLevel = 2) {
       Return 
@@ -66,8 +70,8 @@ SelectLoadout(p_Loadout) {
   ; Move to the center just in case the cursor has the loadout button armed
   MouseMove l_WinW * 0.5, l_WinH * 0.5, 0
 
-  ; Find loadout button
-  ImageSearch l_FoundX, l_FoundY, 0,0, l_WinW, l_WinH, *50 loadout-%p_Loadout%.png
+  ; Find loadout button in top right quadrant
+  ImageSearch l_FoundX, l_FoundY, l_HalfWinW, 0, l_WinW, l_WinH, *50 loadout-%p_Loadout%.png
   If ErrorLevel {
     ; Should not be here. The loadout screne is not up or something in the UI changed
   } Else {
