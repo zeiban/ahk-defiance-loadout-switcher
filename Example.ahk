@@ -2,25 +2,26 @@
 ; Binds F9-F12 to loadouts 1-5
 ;
 
+#SingleInstance force
 #Include DefianceLoadoutSwitcher.ahk
 Return
 
-F8::
+6::
   SelectLoadout1()
 Return
 
-F9::
+7::
   SelectLoadout2()
 Return
 
-F10::
+8::
   SelectLoadout3()
 Return
 
-F11::
+9::
   SelectLoadout4()
 Return
 
-F12::
+0::
   SelectLoadout5()
 Return

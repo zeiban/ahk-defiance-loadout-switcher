@@ -24,7 +24,7 @@
 ; Description:  Allows you to quickly switch loadouts in the game Defiance 
 ; Github: https://github.com/zeiban/ahk-defiance-loadout-switcher
 ;
-; Last Update:  11/April/2013 17:45 EST
+; Last Update:  11/April/2013 18:45 EST
 ;
 ; Created by Zeiban
 ; - https://github.com/zeiban
@@ -35,23 +35,23 @@
 
 #If WinActive("Defiance")
 
-g_HefW =: 1920
-g_RefH =: 1080
+g_RefW := 1920
+g_RefH := 1080
 
-g_LoadoutCheckColor := 0x949418
-g_LoadoutCheckX := 632 / g_RefW
-g_LoadoutCheckY := 41 / g_RefW
+g_LoadoutCheckColor := 0x00BFFF
+g_LoadoutCheckX := 92 / g_RefW
+g_LoadoutCheckY := 41 / g_RefH
 
 g_Loadout1NormX := 1308 / g_RefW
 g_Loadout2NormX := 1345 / g_RefW
 g_Loadout3NormX := 1380 / g_RefW
 g_Loadout4NormX := 1415 / g_RefW
 g_Loadout5NormX := 1448 / g_RefW
-g_LoadoutNorm_y := 155 / g_RefH
+g_LoadoutNormY := 155 / g_RefH
 
 g_Timeout := 5000
 
-SelectLoadout(p_x,p_y) {
+SelectLoadout(p_PosX, p_PosY) {
   global g_Timeout 
   global g_LoadoutCheckX 
   global g_LoadoutCheckY 
@@ -64,31 +64,27 @@ SelectLoadout(p_x,p_y) {
   Send {l down}
   Sleep 50
   Send {l up}
-  ;Sleep 500
-  
+
   ; Wait for Loadout screen to appear
   l_Start := A_TickCount
   loop {
-    PixelGetColor, l_Color, g_LoadoutCheckX , g_LoadoutCheckY
+    PixelGetColor, l_Color, g_LoadoutCheckX * l_WinW, g_LoadoutCheckY * l_WinH
     If ErrorLevel {
-      MsgBox Error
       Return
     }
     
     If (l_Color == g_LoadoutCheckColor) {
-      MsgBox Found
       Break 
     }
     If ( g_TimeOut ) && ( A_TickCount - l_Start >= g_TimeOut) {
-      MsgBox Timeout
       Return
     }
   }
-  
+  MouseMove, l_ClickX, l_ClickY , 0
   MouseClick Left, l_ClickX, l_ClickY, 1, 0, D
 
-  ;Delay needed between up/down for fast computers
-  Sleep 50 
+  ;Delay needed between mouse up/down for fast computers
+  Sleep 100 
 
   MouseClick Left, l_ClickX, l_ClickY, 1, 0, U
 
@@ -98,25 +94,25 @@ SelectLoadout(p_x,p_y) {
 }
 
 SelectLoadout1() {
-  global g_Loadout5NormX
+  global g_Loadout1NormX
   global g_LoadoutNormY
   SelectLoadout(g_Loadout1NormX, g_LoadoutNormY)
 }
 
 SelectLoadout2() {
-  global g_Loadout5NormX
+  global g_Loadout2NormX
   global g_LoadoutNormY
   SelectLoadout(g_Loadout2NormX, g_LoadoutNormY)
 }
 
 SelectLoadout3() {
-  global g_Loadout5NormX
+  global g_Loadout3NormX
   global g_LoadoutNormY
   SelectLoadout(g_Loadout3NormX, g_LoadoutNormY)
 }
 
 SelectLoadout4() {
-  global g_Loadout5NormX
+  global g_Loadout4NormX
   global g_LoadoutNormY
   SelectLoadout(g_Loadout4NormX, g_LoadoutNormY)
 }
